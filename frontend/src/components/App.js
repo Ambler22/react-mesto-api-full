@@ -19,6 +19,8 @@ import { register, authorize, getContent } from "./auth"
 import success from '../images/success.svg';
 import fail from '../images/fail.svg'
 
+console.log('123');
+
 
 function App() {
 
@@ -39,18 +41,22 @@ function App() {
     const [valueEmail, setValueEmail] = React.useState('');
 
     React.useEffect(() => {
-        Promise.all([
-            api.getUserInfo(),
-            api.getCards(),
-        ])
-            .then(([userData, cards]) => {
-                setCurrentUser(userData);
-                setCards(cards)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }, [])
+        console.log(isLoggedIn);
+        if (isLoggedIn === true) {
+            Promise.all([
+                api.getUserInfo(),
+                api.getCards(),
+            ])
+                .then(([userData, cards]) => {
+                    console.log(userData)
+                    console.log(cards)
+                    setCurrentUser(userData);
+                    setCards(cards)
+                })
+                .catch((err) => {
+                })
+        }
+    }, [isLoggedIn])
 
     React.useEffect(() => {
         const jwt = localStorage.getItem('jwt');
@@ -68,7 +74,7 @@ function App() {
                     console.log(err);
                 })
         }
-    }, [isLoggedIn, history])
+    }, [history])
 
     function registration(email, password) {
         register(email, password)
@@ -107,6 +113,8 @@ function App() {
     function signOut() {
         localStorage.removeItem('jwt');
         history.push('/sign-in');
+        setIsLoggedIn(false);
+
     }
 
     function handleNotifyPopupOpen() {
@@ -207,17 +215,6 @@ function App() {
             />
 
             <Switch>
-                <Route path="/sign-in">
-                    <Login authorization={authorization} />
-                </Route>
-
-                <Route path="/sign-up" >
-                    <Register registration={registration} />
-                </Route>
-
-                <Route path="/"> {
-                    isLoggedIn ? < Redirect to="/" /> : < Redirect to="sign-in" />
-                } </Route>
 
                 <ProtectedRoute
                     exact path="/"
@@ -232,6 +229,19 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleCardDelete}
                 />
+
+                <Route path="/sign-in">
+                    <Login authorization={authorization} />
+                </Route>
+
+                <Route path="/sign-up" >
+                    <Register registration={registration} />
+                </Route>
+
+                <Route path="/"> {
+                    isLoggedIn ? < Redirect to="/" /> : < Redirect to="sign-in" />
+                } </Route>
+
             </Switch >
 
             <Footer />

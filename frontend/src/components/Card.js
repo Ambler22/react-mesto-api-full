@@ -34,7 +34,7 @@ function Card(props) {
                     <h2 className="card__text">{props.name}</h2>
                     <div className="">
                         <button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick} aria-label="Нравится"></button>
-                        <p className="card__like_number"></p>
+                        <p className="card__like_number">{props.likes.length}</p>
                     </div>
                 </div>
             </div>

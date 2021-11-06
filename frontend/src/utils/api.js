@@ -1,7 +1,7 @@
 class Api {
     constructor(config) {
-        this.url = config.url;
-        this.headers = config.headers;
+        this._url = config.url;
+        this._headers = config.headers;
     }
 
 _getResponseData(res) {
@@ -11,24 +11,37 @@ _getResponseData(res) {
     return res.json();
 }
 
+_checkToken = (headers) => {
+    const token = localStorage.getItem('jwt');
+
+    if (token) {
+        headers['autorization'] = `Bearer ${token}`;
+    }
+    return headers;
+}
+
 getUserInfo() {
-    return fetch(`${this.url}/users/me`, {
-        headers: this.headers,
+    return fetch(`${this._url}/users/me`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
     })
     .then(res => this._getResponseData(res));
 };
 
 getCards() {
-    return fetch(`${this.url}/cards`, {
-        headers: this.headers,
+    return fetch(`${this._url}/cards`, {
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
     })
     .then(res => this._getResponseData(res));
 };
 
 setUserInfo(data) {
-    return fetch(`${this.url}/users/me`, {
+    return fetch(`${this._url}/users/me`, {
         method: 'PATCH',
-        headers: this.headers,
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
         body: JSON.stringify({
             name: data.name,
             about: data.about,
@@ -38,9 +51,10 @@ setUserInfo(data) {
 }
 
 setUserAvatar(data) {
-    return fetch(`${this.url}/users/me/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
         method: 'PATCH',
-        headers: this.headers,
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
         body: JSON.stringify({
             avatar: data,
         })
@@ -49,9 +63,10 @@ setUserAvatar(data) {
 }
 
 setCards(data) {
-    return fetch(`${this.url}/cards`, {
+    return fetch(`${this._url}/cards`, {
         method: 'POST',
-        headers: this.headers,
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
         body: JSON.stringify({
             name: data.name,
             link: data.link,
@@ -61,25 +76,28 @@ setCards(data) {
 }
 
 deleteCard(cardId) {
-    return fetch(`${this.url}/cards/${cardId}`, {
+    return fetch(`${this._url}/cards/${cardId}`, {
         method: 'DELETE',
-        headers: this.headers,
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
         })
         .then(res => this._getResponseData(res));
 }
 
 setLike(cardId) {
-    return fetch(`${this.url}/cards/likes/${cardId}`, {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
         method: 'PUT',
-        headers: this.headers,
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
     })
     .then(res => this._getResponseData(res));
 }
 
 deleteLike(cardId) {
-    return fetch(`${this.url}/cards/likes/${cardId}`, {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
         method: 'DELETE',
-        headers: this.headers,
+        credentials: 'include',
+        headers: this._checkToken(this._headers),
     })
     .then(res => this._getResponseData(res));
 }
@@ -87,9 +105,10 @@ deleteLike(cardId) {
 }
 
 const api = new Api ({
-    url: 'https://nomoreparties.co/v1/cohort-25',
+    // url: 'https://nomoreparties.co/v1/cohort-26',
+    url: 'http://localhost:3001',
     headers: {
-      authorization: '2db1777b-72eb-4863-bc5d-c00b58939d4b',
+      // authorization: '071ec2e0-6b59-41c1-9439-d0b2ee95bfc8',
       'Content-Type': 'application/json'
     }
 });

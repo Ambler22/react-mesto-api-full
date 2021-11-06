@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors, celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
@@ -21,10 +23,30 @@ const validation = (value) => {
   throw new Error('Введена некорректная ссылка.');
 };
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
+const CORS_WHITELIST = [
+  'http://localhost:3000',
+  // 'https://thisismesto.students.nomoredomains.monster',
+  // 'http://thisismesto.students.nomoredomains.monster',
+];
+
+const corsOption = {
+  credentials: true,
+  optionsSuccessStatus: 204,
+  origin: function checkCorsList(origin, callback) {
+    if (CORS_WHITELIST.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOption));
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
