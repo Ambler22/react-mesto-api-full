@@ -3,7 +3,7 @@ const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 
 const {
-  getUsers, getUserById, updateUser, updateAvatar, getUser,
+  getUsers, updateUser, updateAvatar, getUser,
 } = require('../controllers/users');
 
 const validation = (value) => {
@@ -15,13 +15,6 @@ const validation = (value) => {
 };
 
 router.get('/users', getUsers);
-
-router.get('/users/:userId', celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().required().hex().length(24),
-  }),
-}), getUserById);
-
 router.get('/users/me', getUser);
 
 router.patch('/users/me', celebrate({

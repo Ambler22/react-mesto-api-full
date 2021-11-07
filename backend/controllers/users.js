@@ -16,18 +16,6 @@ module.exports.getUsers = (req, res, next) => {
     });
 };
 
-module.exports.getUserById = (req, res, next) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь по указанному _id не найден.');
-      }
-      res.send(user);
-    })
-    .catch(next);
-};
-
 module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
