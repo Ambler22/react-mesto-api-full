@@ -29,7 +29,7 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb');
 const CORS_WHITELIST = [
   'http://localhost:3000',
-  'https://dom.rom.students.nomoredomains.rocks',
+  'https://dom.rom.nomoredomains.rocks',
   'http://dom.rom.nomoredomains.rocks',
 ];
 
@@ -52,6 +52,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

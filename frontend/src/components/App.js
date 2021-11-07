@@ -19,9 +19,6 @@ import { register, authorize, getContent } from "./auth"
 import success from '../images/success.svg';
 import fail from '../images/fail.svg'
 
-console.log('123');
-
-
 function App() {
 
     const history = useHistory();
@@ -48,8 +45,6 @@ function App() {
                 api.getCards(),
             ])
                 .then(([userData, cards]) => {
-                    console.log(userData)
-                    console.log(cards)
                     setCurrentUser(userData);
                     setCards(cards)
                 })
