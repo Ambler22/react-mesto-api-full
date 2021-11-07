@@ -106,7 +106,7 @@ deleteLike(cardId) {
 
 const api = new Api ({
     // url: 'https://nomoreparties.co/v1/cohort-26',
-    url: 'http://api.dom.rom.nomoredomains.xyz',
+    url: 'https://api.dom.rom.nomoredomains.xyz',
     headers: {
       // authorization: '071ec2e0-6b59-41c1-9439-d0b2ee95bfc8',
       'Content-Type': 'application/json'
