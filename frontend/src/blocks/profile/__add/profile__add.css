@@ -1,0 +1,13 @@
+.profile__add {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    align-items: baseline;
+}
+
+@media (max-width: 720px) {
+    .profile__add {
+        padding-top: 26px;
+    }
+}

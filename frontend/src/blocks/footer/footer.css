@@ -1,0 +1,18 @@
+.footer {
+    padding-top: 67px;
+    font-family: 'Inter', Arial, sans-serif;
+    max-width: 880px;
+}
+
+@media (max-width: 896px) {
+    .footer {
+        max-width: 680px;
+    }
+}
+
+@media (max-width: 720px) {
+    .footer {
+        max-width: 282px;
+        padding-top: 48px;
+    }
+}

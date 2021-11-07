@@ -29,8 +29,8 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb');
 const CORS_WHITELIST = [
   'http://localhost:3000',
-  // 'https://thisismesto.students.nomoredomains.monster',
-  // 'http://thisismesto.students.nomoredomains.monster',
+  'https://dom.rom.students.nomoredomains.rocks',
+  'http://dom.rom.nomoredomains.rocks',
 ];
 
 const corsOption = {
