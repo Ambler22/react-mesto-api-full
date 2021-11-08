@@ -27,13 +27,14 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
-const CORS_WHITELIST = [
+
+/* const CORS_WHITELIST = [
   'http://localhost:3000',
   'https://dom.rom.nomoredomains.rocks',
   'http://dom.rom.nomoredomains.rocks',
 ];
 
-const corsOption = {
+ const corsOption = {
   credentials: true,
   optionsSuccessStatus: 204,
   origin: function checkCorsList(origin, callback) {
@@ -45,7 +46,22 @@ const corsOption = {
   },
 };
 
-app.use(cors(corsOption));
+app.use(cors(corsOption)); */
+
+const options = {
+  origin: [
+    'http://localhost:3000',
+    'https://dom.rom.nomoredomains.rocks',
+    'http://dom.rom.nomoredomains.rocks',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+};
+
+app.use('*', cors(options));
 app.use(cookieParser());
 
 app.use(express.json());
