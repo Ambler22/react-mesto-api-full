@@ -47,7 +47,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные.'));
       } else {
-        next(new ServerError('Произошла ошибка'));
+        next(err);
       }
     });
 };
@@ -104,7 +104,7 @@ module.exports.login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному _id не найден.');
+        throw new UnauthorizedError('Неверная почта или пароль.');
       }
       bcrypt.compare(password, user.password)
         .then((matched) => {
@@ -124,7 +124,8 @@ module.exports.login = (req, res, next) => {
         .catch(() => {
           next(new UnauthorizedError('Необходимо авторизоваться'));
         });
-    });
+    })
+    .catch(next);
 };
 
 module.exports.getUser = (req, res, next) => {
