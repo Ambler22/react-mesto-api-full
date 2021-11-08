@@ -30,25 +30,21 @@ module.exports.createCard = (req, res, next) => {
 module.exports.deleteCardById = (req, res, next) => {
   const { cardId } = req.params;
   const owner = req.user._id;
-
-  Card.findById(cardId)
+  Card.findByIdAndRemove(cardId)
     .then((data) => {
       if (!data) {
         next(new NotFoundError('Пользователь по указанному _id не найден.'));
       } if (owner !== String(data.owner)) {
         next(new ForbiddenError('Вы не можете удалить эту карточку.'));
+      } else {
+        res.send(data);
       }
     })
-
-  Card.findByIdAndRemove(cardId)
-    .then((data) => {
-        res.send(data);
-      })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Невалидный id.'));
+        throw new BadRequestError('Невалидный id.');
       } else {
-        next(new ServerError('Произошла ошибка'));
+        throw new ServerError('Произошла ошибка');
       }
     });
 };

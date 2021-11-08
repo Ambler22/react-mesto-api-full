@@ -27,7 +27,6 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
-
 const CORS_WHITELIST = [
   'http://localhost:3000',
   'https://dom.rom.nomoredomains.rocks',
