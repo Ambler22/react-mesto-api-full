@@ -38,19 +38,20 @@ module.exports.deleteCardById = (req, res, next) => {
       } if (owner !== String(data.owner)) {
         next(new ForbiddenError('Вы не можете удалить эту карточку.'));
       }
-    })
 
-  Card.findByIdAndRemove(cardId)
-    .then((data) => {
-        res.send(data);
-      })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Невалидный id.'));
-      } else {
-        next(new ServerError('Произошла ошибка'));
-      }
-    });
+      Card.findByIdAndRemove(cardId)
+        .then((card) => {
+          res.send(card);
+        })
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            next(new BadRequestError('Невалидный id.'));
+          } else {
+            next(new ServerError('Произошла ошибка'));
+          }
+        });
+    })
+    .catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
@@ -68,9 +69,9 @@ module.exports.likeCard = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequestError('Невалидный id.');
+        next(new BadRequestError('Невалидный id.'));
       } else {
-        throw new ServerError('Произошла ошибка');
+        next(err);
       }
     });
 };
@@ -90,9 +91,9 @@ module.exports.dislikeCard = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequestError('Невалидный id.');
+        next(new BadRequestError('Невалидный id.'));
       } else {
-        throw new ServerError('Произошла ошибка');
+        next(err);
       }
     });
 };
