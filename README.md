@@ -1,8 +1,8 @@
 # react-mesto-api-full
 Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. Бэкенд расположите в директории `backend/`, а фронтенд - в `frontend/`. 
   
-Сайт доступен по ссылке: http://dom.rom.nomoredomains.rocks
+Сайт доступен по ссылке: https://dom.rom.nomoredomains.rocks
 
-Адрес бэкенда: http://api.dom.rom.nomoredomains.xyz
+Адрес бэкенда: https://api.dom.rom.nomoredomains.xyz
 
 Публичный api: 51.250.2.185
